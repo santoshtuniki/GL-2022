@@ -25,8 +25,11 @@ public class FindSumPair {
 		}
 		if(root.key > data) {
 			root.left = insertTreeNode(root.left, data);
-		}else {
+		}else if(root.key < data) {
 			root.right = insertTreeNode(root.right, data);
+		}else {
+			System.out.println("Value "+data+" already exists in BST");
+			return root;
 		}
 		return root;		
 	}
