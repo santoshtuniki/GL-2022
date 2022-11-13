@@ -28,6 +28,8 @@ public class Skyscraper {
 		System.out.println("The order of construction is as follows: \n");		
 		int count = 0;
 		
+		PriorityQueue<Integer> newQueue = new PriorityQueue<Integer>(Collections.reverseOrder());
+		
 		for(int i=0;i<n;i++) {
 			System.out.println("Day : "+(i+1));
 			// on last day, remaining floors arranged based on the leftover data.
@@ -40,21 +42,33 @@ public class Skyscraper {
 			if(floorSize[i]==queue.peek()) {
 				// if any day is skipped, we check whether we can make out in subsequent days
 				if(count>0) {
-					int j=0;
-					int k=-1;
+					int j=0, k=-1;
 					while(j<=count && !(queue.isEmpty())) 
 					{
 						if(floorSize[i-j]==queue.peek()) {
 							System.out.print(queue.poll()+" ");
 							k++;
+						}else {
+							newQueue.add(floorSize[i-j]);
 						}
 						j++;
 					}
+					
+					while(!newQueue.isEmpty()) {
+						if(newQueue.peek()==queue.peek()){
+							System.out.print(queue.poll()+" ");
+							newQueue.poll();
+							k++;
+						}else {
+							newQueue.poll();
+						}
+					}
+					
 					count = count-k;
 					System.out.println();	
 				} 
-				// check if we can construct directly on same day
-				else if(floorSize[i]==queue.peek()) {
+				 //check if we can construct directly on same day
+				else {
 					System.out.println(queue.poll());
 				} 
 				
